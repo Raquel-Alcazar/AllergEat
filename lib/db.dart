@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:allergeat/favorite_product.dart';
 import 'package:flutter/widgets.dart';
 import 'package:allergeat/user.dart';
 import 'package:sqflite/sqflite.dart';
@@ -13,6 +14,7 @@ class DB {
     onCreate: (db, version) {
         return db.execute(
           "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, surname TEXT, email TEXT, password TEXT)"
+          "CREATE TABLE favorite_products (INTEGER user_id, INTEGER product_id)"
         );
     }, version: 1);
   }
@@ -38,7 +40,7 @@ class DB {
   static Future<List<User>> users() async {
     final database = await _openDB();
     final List<Map<String, dynamic>> usersMap = await database.query("users");
-
+  
     return List.generate(usersMap.length,
             (i) => User (
               id: usersMap[i]['id'],
@@ -48,4 +50,28 @@ class DB {
               password: usersMap[i]['contrasena']
             ));
   }
+
+    static Future<void> insertProductoFavorito(FavoriteProduct favoriteProduct) async {
+    final database = await _openDB();
+
+    await database.insert("favorite_products", favoriteProduct.toMap());
+  }
+
+    static Future<void> deleteProductoFavorito(FavoriteProduct favoriteProduct) async {
+    final database = await _openDB();
+
+    await database.delete("favorite_products", where: "userId = ? AND productId = ?", whereArgs: [favoriteProduct.userId, favoriteProduct.productId]);
+  }
+
+    static Future<List<FavoriteProduct>> favoriteProducts () async {
+    final database = await _openDB();
+    final List<Map<String, dynamic>> favoriteProducts = await database.query("favorite_products");
+  
+    return List.generate(favoriteProducts.length,
+            (i) => FavoriteProduct (
+              userId: favoriteProducts[i]['userId'],
+              productId: favoriteProducts[i]['productId'],
+            ));
+  }
+
 }
