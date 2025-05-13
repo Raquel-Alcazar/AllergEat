@@ -254,4 +254,174 @@ class BuscarProductoScreenState extends State<BuscarProductoScreen> {
     );
   }
 }
+
+class ProductoDetailScreen extends StatelessWidget {
+  final Product producto;
+
+  ProductoDetailScreen({required this.producto});
+
+  @override
+  Widget build(BuildContext context) {
+    // Obtenemos los alérgenos como texto
+    final alergenosText = producto.allergens?.names.toString() ?? '';
+  
+    // Convertimos a lista si hay datos
+    final alergenosList = alergenosText.isNotEmpty ? alergenosText.split(',') : [];
+    print('Lista de alérgenos: $alergenosList');
+    
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          producto.productName ?? "Detalles del Producto",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.favorite_border),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Añadido a favoritos')),
+              );
+            },
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Imagen principal
+            Center(
+              child: Container(
+                height: 200,
+                width: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.grey[200],
+                ),
+                child: producto.imageFrontUrl != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(
+                          producto.imageFrontUrl!,
+                          fit: BoxFit.contain,
+                        ),
+                      )
+                    : Icon(Icons.fastfood, size: 60, color: Colors.grey),
+              ),
+            ),
+            SizedBox(height: 24),
+
+            // Nombre y marca
+            Text(
+              producto.productName ?? "Nombre no disponible",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal[800],
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              producto.brands ?? 'Marca desconocida',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.grey[600],
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+            Divider(height: 32, thickness: 1),
+
+            // Información básica
+            _buildInfoRow('Código de barras', producto.barcode ?? 'No disponible'),
+            _buildInfoRow('Categoría', producto.categories ?? 'No especificada'),
+            _buildInfoRow('Cantidad', producto.quantity ?? 'No especificada'),
+            Divider(height: 32, thickness: 1),
+
+            // Sección de alérgenos (solo si hay datos)
+            if (alergenosList.isNotEmpty) ...[
+              Text(
+                'Alérgenos:',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal[800],
+                ),
+              ),
+              SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                children: alergenosList.map((alergeno) => Chip(
+                  label: Text(alergeno.trim()),
+                  backgroundColor: Colors.red[50],
+                  labelStyle: TextStyle(color: Colors.red[900]),
+                )).toList(),
+              ),
+              SizedBox(height: 16),
+              Divider(height: 32, thickness: 1),
+            ],
+
+            // Ingredientes
+            Text(
+              'Ingredientes:',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal[800],
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              producto.ingredientsText ?? 'Información no disponible',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 24),
+
+            // Botón de acción
+            Center(
+              child: ElevatedButton.icon(
+                icon: Icon(Icons.share),
+                label: Text('Compartir Producto'),
+                onPressed: () {
+                  // Lógica para compartir
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$label: ',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.teal[700],
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 }
