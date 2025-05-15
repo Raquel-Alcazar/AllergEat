@@ -424,4 +424,18 @@ class ProductoDetailScreen extends StatelessWidget {
     );
   }
 }
+
+class ProductosFavoritosScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Productos Favoritos'),
+      ),
+      body: Center(
+        child: Text('Aquí se mostrarán los productos favoritos'),
+      ),
+    );
+  }
+}
 }
