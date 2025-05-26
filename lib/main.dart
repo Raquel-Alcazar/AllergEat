@@ -438,4 +438,171 @@ class ProductosFavoritosScreen extends StatelessWidget {
     );
   }
 }
+
+class PerfilScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Perfil'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Foto de perfil
+            Center(
+              child: CircleAvatar(
+                radius: 100,
+                backgroundImage: NetworkImage(
+                  'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?cs=srgb&dl=pexels-olly-733872.jpg&fm=jpg', // URL de la imagen del perfil
+                ),
+                backgroundColor: Colors.grey[200],
+              ),
+            ),
+            SizedBox(height: 16),
+            
+            // Nombre de usuario
+            Text(
+              '¡Hola, Raquel Alcázar!',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            
+            // Correo electrónico
+            Text(
+              'Correo electrónico: raquel@ejemplo.com',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 16),
+            
+            // Preferencias
+            Text(
+              'Alergias alimentarias: Gluten, Lactosa', 
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 16),
+          
+            Spacer(), 
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Acción para editar las alergias
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditarAlergiasScreen(), 
+                      ),
+                    );
+                  },
+                  child: Text('Editar Alergias'),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class EditarAlergiasScreen extends StatefulWidget {
+  @override
+  EditarAlergiasScreenState createState() => EditarAlergiasScreenState();
+}
+
+class EditarAlergiasScreenState extends State<EditarAlergiasScreen> {
+  // Lista de alérgenos comunes
+  final List<String> _alergenos = [
+    'Gluten',
+    'Lactosa',
+    'Frutos secos',
+    'Huevos',
+    'Pescado',
+    'Mariscos',
+    'Soja',
+    'Cacahuetes',
+    'Apio',
+    'Mostaza',
+    'Sésamo',
+    'Sulfitos',
+    'Altramuces',
+    'Moluscos',
+  ];
+
+  // Lista de alergias seleccionadas por el usuario
+  Set<String> _alergiasSeleccionadas = {};
+
+  // Función para guardar las alergias seleccionadas
+  void _guardarAlergias() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Alergias guardadas exitosamente')),
+    );
+    Navigator.pop(context); // Volver a la pantalla anterior después de guardar
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Editar Alergias'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center, 
+          children: [
+            // Título
+            Text(
+              'Selecciona tus alergias alimentarias',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            
+            // Listado de alérgenos
+            Expanded(
+              child: ListView.builder(
+                itemCount: _alergenos.length,
+                itemBuilder: (context, index) {
+                  String alergeno = _alergenos[index];
+                  return Center( 
+                    child: SwitchListTile(
+                      title: Text(alergeno),
+                      value: _alergiasSeleccionadas.contains(alergeno),
+                      onChanged: (bool isSelected) {
+                        setState(() {
+                          if (isSelected) {
+                            _alergiasSeleccionadas.add(alergeno);
+                          } else {
+                            _alergiasSeleccionadas.remove(alergeno);
+                          }
+                        });
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+            
+            
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                  onPressed: _guardarAlergias,
+                  child: Text('Guardar Cambios'),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
