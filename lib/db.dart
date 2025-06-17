@@ -13,8 +13,9 @@ class DB {
     return openDatabase(join(await getDatabasesPath(), 'data.db'),
     onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, surname TEXT, email TEXT, password TEXT)"
-          "CREATE TABLE favorite_products (INTEGER user_id, INTEGER product_id)"
+          "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, surname TEXT, email TEXT UNIQUE, password TEXT);"
+          "CREATE TABLE favorite_products (FOREIGN KEY(user_id) REFERENCES users(id) NOT NULL, product_id INTEGER NOT NULL);"
+          "CREATE TABLE allergies (FOREIGN KEY(user_id) REFERENCES users(id) NOT NULL, name TEXT"
         );
     }, version: 1);
   }
@@ -22,7 +23,7 @@ class DB {
   static Future<void> insertUser(User user) async {
     final database = await _openDB();
 
-    await database.insert("users", user.toMap());
+    await database.insert("users", user.toMap(withId: false));
   }
 
   static Future<void> deleteUser(User user) async {
