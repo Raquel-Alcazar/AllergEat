@@ -1,23 +1,45 @@
 import 'package:flutter/material.dart';
+import 'db.dart';
+import 'user.dart';
+import 'home_con_menu.dart';
 
 class PantallaIniciarSesion extends StatefulWidget {
   @override
-  _PantallaIniciarSesionState createState() => _PantallaIniciarSesionState();
+  PantallaIniciarSesionState createState() => PantallaIniciarSesionState();
 }
 
-class _PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
+class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usuarioController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void _iniciarSesion() {
-    if (_formKey.currentState!.validate()) {
+  void _iniciarSesion() async {
+    if (context.mounted && _formKey.currentState!.validate()) {
       final usuario = _usuarioController.text;
       final password = _passwordController.text;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('¡Inicio de sesión correcto para $usuario!')),
-      );
+      User? usuarioEncontrado = await DB.userByEmail(usuario);
+
+      if (usuarioEncontrado is User && usuarioEncontrado.password == password) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('¡Inicio de sesión correcto para $usuario!')),
+        );
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeConMenu(
+              usuario: usuarioEncontrado,
+              paginaInicial:
+                  0, // Esto hace que se abra directamente la pestaña de búsqueda
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('¡Credenciales no válidas!')),
+        );
+      }
     }
   }
 

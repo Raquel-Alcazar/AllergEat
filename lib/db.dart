@@ -45,11 +45,33 @@ class DB {
     return List.generate(usersMap.length,
             (i) => User (
               id: usersMap[i]['id'],
-              name: usersMap[i]['nombre'],
-              surname: usersMap[i]['apellidos'],
+              name: usersMap[i]['name'],
+              surname: usersMap[i]['surname'],
               email: usersMap[i]['email'],
-              password: usersMap[i]['contrasena']
+              password: usersMap[i]['password']
             ));
+  }
+
+  static Future<User?> userByEmail(String email) async {
+    final database = await _openDB();
+    List<Map> usersMap = await database.query(
+      'users',
+      where: 'email = ?', 
+      whereArgs: [email], 
+      limit: 1
+    );
+    
+    if (usersMap.isEmpty) {
+      return null;
+    } else {
+      return User(
+        id: usersMap[0]['id'],
+        name: usersMap[0]['name'],
+        surname: usersMap[0]['surname'],
+        email: usersMap[0]['email'],
+        password: usersMap[0]['password']
+      );
+    }
   }
 
     static Future<void> insertProductoFavorito(FavoriteProduct favoriteProduct) async {
