@@ -17,25 +17,39 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
   String password = '';
   String repetirPassword = '';
 
-  void _registrarse() {
-    if (_formKey.currentState!.validate()) {
+  void _registrarse() async {
+    if (context.mounted && _formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      u.User usuario = u.User(id: 0, name: nombre, surname: apellidos, email: email, password: password);
-      DB.insertUser(usuario);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Usuario registrado con éxito')),
-      );
+      u.User usuario = u.User(
+          id: 0,
+          name: nombre,
+          surname: apellidos,
+          email: email,
+          password: password);
 
-Navigator.pushReplacement(
-  context,
-  MaterialPageRoute(
-    builder: (context) => HomeConMenu(
-      usuario: usuario,
-      paginaInicial: 0, // Esto hace que se abra directamente la pestaña de búsqueda
-    ),
-  ),
-);
+      u.User? usuarioEncontrado = await DB.userByEmail(usuario.email);
 
+      if (usuarioEncontrado is u.User) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('¡Email ya en uso!')),
+        );
+      } else {
+        DB.insertUser(usuario);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Usuario registrado con éxito')),
+        );
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeConMenu(
+              usuario: usuario,
+              paginaInicial:
+                  0, // Esto hace que se abra directamente la pestaña de búsqueda
+            ),
+          ),
+        );
+      }
     }
   }
 
@@ -65,9 +79,8 @@ Navigator.pushReplacement(
               SizedBox(height: 20),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Correo electrónico'),
-                validator: (value) => value!.contains('@')
-                    ? null
-                    : 'Introduce un correo válido',
+                validator: (value) =>
+                    value!.contains('@') ? null : 'Introduce un correo válido',
                 onSaved: (value) => email = value!,
               ),
               SizedBox(height: 20),
