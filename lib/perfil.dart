@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'gestionar_alergias.dart';
 import 'package:allergeat/user.dart' as u;
+import 'package:allergeat/db.dart';
 import 'package:allergeat/bienvenida.dart';
 
 class PerfilScreen extends StatefulWidget {
@@ -28,6 +29,23 @@ class _PerfilScreenState extends State<PerfilScreen> {
     apellidos = widget.usuario.surname;
     email = widget.usuario.email;
     password = widget.usuario.password;
+  }
+
+  void _guardarCambios() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      
+      final usuario = widget.usuario;
+      usuario.name = nombre;
+      usuario.surname = apellidos;
+      usuario.password = password; 
+
+      DB.updateUser(usuario);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Datos guardados')),
+      );
+    }
   }
 
   void cerrarSesion() {
@@ -62,22 +80,21 @@ class _PerfilScreenState extends State<PerfilScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-appBar: AppBar(
-  automaticallyImplyLeading: false,
-  title: Text('Perfil de usuario'),
-  backgroundColor: Color(0xFFFFC1CC),
-  actions: [
-    IconButton(
-      icon: Icon(Icons.logout, color: Colors.red), // 🔴 Icono rojo
-      tooltip: 'Cerrar sesión',
-      onPressed: cerrarSesion,
-    ),
-  ],
-),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text('Perfil de usuario'),
+        backgroundColor: Color(0xFFFFC1CC),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout, color: Colors.red), // 🔴 Icono rojo
+            tooltip: 'Cerrar sesión',
+            onPressed: cerrarSesion,
+          ),
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Form(
@@ -166,14 +183,7 @@ appBar: AppBar(
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          _formKey.currentState?.save();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Datos guardados')),
-                          );
-                        }
-                      },
+                      onPressed: () { _guardarCambios(); },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFFFC1CC),
                         shape: RoundedRectangleBorder(
@@ -206,7 +216,8 @@ appBar: AppBar(
                                 });
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('Alergias guardadas correctamente'),
+                                    content: Text(
+                                        'Alergias guardadas correctamente'),
                                   ),
                                 );
                               },

@@ -23,7 +23,10 @@ class DB {
   static Future<void> insertUser(User user) async {
     final database = await _openDB();
 
-    await database.insert("users", user.toMap(withId: false));
+    final userMap = user.toMap();
+    userMap.remove("id");
+
+    await database.insert("users", userMap);
   }
 
   static Future<void> deleteUser(User user) async {
@@ -35,7 +38,11 @@ class DB {
   static Future<void> updateUser(User user) async {
     final database = await _openDB();
 
-    await database.update("users", user.toMap(), where: "id = ?", whereArgs: [user.id]);
+    final userMap = user.toMap();
+    userMap.remove("id");
+    userMap.remove("email");
+
+    await database.update("users", userMap, where: "id = ?", whereArgs: [user.id]);
   }
 
   static Future<List<User>> users() async {

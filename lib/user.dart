@@ -8,13 +8,8 @@ class User {
   
   User({required this.id, required this.name, required this.surname, required this.email, required this.password});
 
-  Map<String, dynamic> toMap({withId = true}){
-    if (withId) {
-      return { 'id': id, 'name': name, 'surname': surname, 'email': email, 'password': password };
-    }
-    else{
-      return {'name': name, 'surname': surname, 'email': email, 'password': password };
-    }
+  Map<String, dynamic> toMap(){
+    return { 'id': id, 'name': name, 'surname': surname, 'email': email, 'password': password };
   }
 
   @override
