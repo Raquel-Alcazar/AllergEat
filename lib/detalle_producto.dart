@@ -111,6 +111,7 @@ class _DetalleProductoState extends State<DetalleProducto> {
             widget.producto.productName ?? 'Sin nombre',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
+          productoApto(),
           SizedBox(height: 10),
           _detalle('Marca', widget.producto.brands),
           _detalle('Cantidad', widget.producto.quantity),
@@ -121,6 +122,20 @@ class _DetalleProductoState extends State<DetalleProducto> {
         ],
       ),
     );
+  }
+
+  Text productoApto() {
+    if (widget.producto.allergens!.ids.any((id) => widget.usuario.allergies!.contains(id))) {
+      return Text(
+        'Este producto contiene alguno de tus alérgenos',
+        style: TextStyle(backgroundColor: Colors.red, fontSize: 18),
+      );
+    } else {
+      return Text(
+        'Este producto no contiene ningún alérgeno que hayas configurado',
+        style: TextStyle(backgroundColor: Colors.green, fontSize: 18),
+      );
+    }
   }
 
   Widget _detalle(String titulo, String? valor) {
