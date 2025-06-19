@@ -28,6 +28,7 @@ class FavoritosScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Favoritos'),
+        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(16),

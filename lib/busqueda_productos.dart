@@ -76,6 +76,7 @@ class _BusquedaProductosState extends State<BusquedaProductos>
     return Scaffold(
       appBar: AppBar(
         title: Text('Buscar productos'),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
