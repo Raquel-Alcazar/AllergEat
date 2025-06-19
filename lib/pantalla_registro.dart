@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:allergeat/db.dart';
 import 'package:allergeat/user.dart' as u;
 import 'home_con_menu.dart';
-import 'perfil.dart';
 
 class PantallaRegistro extends StatefulWidget {
   @override

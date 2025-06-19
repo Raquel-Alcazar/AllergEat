@@ -1,9 +1,5 @@
-import 'package:allergeat/busqueda_productos.dart';
 import 'package:flutter/material.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
-import 'package:allergeat/db.dart';
-import 'package:allergeat/user.dart' as u;
-import 'pantalla_registro.dart';
 import 'bienvenida.dart';
 
 void main() {
