@@ -108,7 +108,7 @@ class _BusquedaProductosState extends State<BusquedaProductos>
           ),
         ),
         title: Text(producto.productName ?? 'Sin nombre'),
-        subtitle: Text('Código: ${producto.barcode ?? 'Desconocido'}'),
+        subtitle: Text(producto.brands ?? 'Desconocido'),
         trailing: Icon(Icons.arrow_forward_ios_rounded, size: 16),
         onTap: () {
           Navigator.push(

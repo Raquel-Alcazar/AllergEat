@@ -81,8 +81,8 @@ class _FavoritosScreenState extends State<FavoritosScreen>
                 Icon(Icons.broken_image),
           ),
         ),
-        title: Text(producto.productName!),
-        subtitle: Text(producto.brands!),
+        title: Text(producto.productName ?? 'Sin nombre'),
+        subtitle: Text(producto.brands ?? 'Desconocido'),
         trailing: Icon(Icons.favorite, color: Colors.pink.shade400),
       ),
     );
