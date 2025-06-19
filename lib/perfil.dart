@@ -147,18 +147,17 @@ class _PerfilScreenState extends State<PerfilScreen> {
               SizedBox(height: 20),
               TextFormField(
                 initialValue: email,
-                style: TextStyle(fontSize: 14),
+                readOnly: true,
+                enableInteractiveSelection: false,
+                focusNode: AlwaysDisabledFocusNode(),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey.shade600, // ← tono suave
+                ),
                 decoration: InputDecoration(
                   labelText: 'Correo electrónico',
                   prefixIcon: Icon(Icons.email),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, introduce un correo válido';
-                  }
-                  return null;
-                },
-                onSaved: (value) => email = value ?? email,
               ),
               SizedBox(height: 20),
               TextFormField(
@@ -258,4 +257,9 @@ class _PerfilScreenState extends State<PerfilScreen> {
       ),
     );
   }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }
