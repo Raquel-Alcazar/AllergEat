@@ -208,18 +208,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => GestionarAlergiasScreen(
-                              alergiasSeleccionadas: alergiasSeleccionadas,
-                              onGuardar: (lista) {
-                                setState(() {
-                                  alergiasSeleccionadas = lista;
-                                });
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        'Alergias guardadas correctamente'),
-                                  ),
-                                );
-                              },
+                              usuario: widget.usuario,
                             ),
                           ),
                         );

@@ -1,11 +1,11 @@
+import 'package:allergeat/db.dart';
+import 'package:allergeat/user.dart';
 import 'package:flutter/material.dart';
 
 class GestionarAlergiasScreen extends StatefulWidget {
-  final List<String> alergiasSeleccionadas;
-  final Function(List<String>) onGuardar;
+  final User usuario;
 
-  GestionarAlergiasScreen(
-      {required this.alergiasSeleccionadas, required this.onGuardar});
+  GestionarAlergiasScreen({required this.usuario});
 
   @override
   _GestionarAlergiasScreenState createState() =>
@@ -13,27 +13,43 @@ class GestionarAlergiasScreen extends StatefulWidget {
 }
 
 class _GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
-  List<String> alergias = [
-    'Gluten',
-    'Lácteos',
-    'Frutos secos',
-    'Huevos',
-    'Soja',
-    'Mariscos',
-    'Pescado',
-    'Cacahuetes',
-    'Sésamo',
-    'Mostaza',
-    'Apio',
-    'Sulfitos',
-  ];
+  static const Map<String, String> alergias = {
+    'Gluten': 'en:gluten',
+    'Lácteos': 'en:milk',
+    'Huevos': 'en:eggs',
+    'Frutos secos': 'en:nuts',
+    'Cacahuetes': 'en:peanuts',
+    'Sésamo': 'en:sesame-seeds',
+    'Soja': 'en:soybeans',
+    'Apio': 'en:celery',
+    'Mostaza': 'en:mustard',
+    'Lupinus': 'en:lupinus',
+    'Pescado': 'en:fish',
+    'Crustáceos': 'en:crustaceans',
+    'Moluscos': 'en:molluscs',
+    'Sulfitos': 'en:sulphur-dioxide-and-sulphites',
+  };
 
   late List<String> seleccionadas;
 
   @override
   void initState() {
     super.initState();
-    seleccionadas = List<String>.from(widget.alergiasSeleccionadas);
+    seleccionadas = widget.usuario.allergies!;
+  }
+
+  Future<void> saveAllergies() async {
+    await DB.updateAllergies(widget.usuario, seleccionadas);
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Alergias guardadas correctamente'),
+        ),
+      );
+
+      Navigator.pop(context);
+    }
   }
 
   Color getSwitchActiveColor(bool isActive) {
@@ -54,8 +70,9 @@ class _GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
             'Selecciona tus alergias:',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          ...alergias.map((alergia) {
-            final estaSeleccionada = seleccionadas.contains(alergia);
+          ...alergias.keys.map((alergia) {
+            final estaSeleccionada = seleccionadas.contains(alergias[alergia]);
+
             return SwitchListTile(
               title: Text(alergia),
               value: estaSeleccionada,
@@ -65,20 +82,17 @@ class _GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
               onChanged: (bool valor) {
                 setState(() {
                   if (valor) {
-                    seleccionadas.add(alergia);
+                    seleccionadas.add(alergias[alergia]!);
                   } else {
-                    seleccionadas.remove(alergia);
+                    seleccionadas.remove(alergias[alergia]);
                   }
                 });
               },
             );
-          }).toList(),
+          }),
           SizedBox(height: 30),
           ElevatedButton(
-            onPressed: () {
-              widget.onGuardar(seleccionadas);
-              Navigator.pop(context);
-            },
+            onPressed: () => saveAllergies(),
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFFFF6F91), // rosa oscuro
               shape: RoundedRectangleBorder(

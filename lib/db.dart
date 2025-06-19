@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:async';
 
 import 'package:allergeat/favorite_product.dart';
@@ -13,11 +14,9 @@ class DB {
         onCreate: (db, version) {
       final batch = db.batch();
       batch.execute(
-          "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, surname TEXT, email TEXT UNIQUE, password TEXT)");
+          "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, surname TEXT, email TEXT UNIQUE, password TEXT, allergies BLOB)");
       batch.execute(
           "CREATE TABLE favorite_products (user_id INTEGER NOT NULL, product_barcode TEXT NOT NULL, FOREIGN KEY(user_id) REFERENCES users(id), CONSTRAINT UC_Favorite_Products UNIQUE(user_id, product_barcode))");
-      batch.execute(
-          "CREATE TABLE allergies (user_id INTEGER NOT NULL, name TEXT NOT NULL, FOREIGN KEY(user_id) REFERENCES users(id), CONSTRAINT UC_Allergies UNIQUE(user_id, name))");
       batch.commit();
     }, version: 1);
   }
@@ -27,6 +26,7 @@ class DB {
 
     final userMap = user.toMap();
     userMap.remove("id");
+    userMap['allergies'] = JsonEncoder().convert(userMap['allergies']);
 
     var changed = await database.insert("users", userMap);
     if (changed > 0) {
@@ -46,23 +46,10 @@ class DB {
     final userMap = user.toMap();
     userMap.remove("id");
     userMap.remove("email");
+    userMap.remove("allergies");
 
     await database
         .update("users", userMap, where: "id = ?", whereArgs: [user.id]);
-  }
-
-  static Future<List<User>> users() async {
-    final database = await _openDB();
-    final List<Map<String, dynamic>> usersMap = await database.query("users");
-
-    return List.generate(
-        usersMap.length,
-        (i) => User(
-            id: usersMap[i]['id'],
-            name: usersMap[i]['name'],
-            surname: usersMap[i]['surname'],
-            email: usersMap[i]['email'],
-            password: usersMap[i]['password']));
   }
 
   static Future<User?> userByEmail(String email) async {
@@ -78,7 +65,8 @@ class DB {
           name: usersMap[0]['name'],
           surname: usersMap[0]['surname'],
           email: usersMap[0]['email'],
-          password: usersMap[0]['password']);
+          password: usersMap[0]['password'],
+          allergies: List<String>.from(JsonDecoder().convert(usersMap[0]['allergies'])));
     }
   }
 
@@ -141,6 +129,19 @@ class DB {
         userId: favoriteProducts.first['user_id'],
         productBarcode: favoriteProducts.first['product_barcode'],
       );
+    }
+  }
+
+  static Future<void> updateAllergies(User user, List<String> allergies) async {
+    final database = await _openDB();
+
+    final String jsonAllergies = JsonEncoder().convert(allergies);
+
+    var changed = await database.update("users", {"allergies": jsonAllergies},
+        where: 'id = ?', whereArgs: [user.id]);
+
+    if (changed > 0) {
+      user.allergies = allergies;
     }
   }
 }
