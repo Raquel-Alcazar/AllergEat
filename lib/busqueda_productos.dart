@@ -76,6 +76,53 @@ class _BusquedaProductosState extends State<BusquedaProductos>
     });
   }
 
+  Color cardColorProducto(Product producto) {
+    if (producto.allergens!.ids.any((id) => widget.usuario.allergies!.contains(id))) {
+      return Colors.redAccent;
+    } else {
+      return Colors.greenAccent;
+    }
+  }
+
+  Card cardProducto(Product producto) {
+    return Card(
+      color: cardColorProducto(producto),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      elevation: 3,
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      child: ListTile(
+        leading: Hero(
+          tag: producto.barcode ?? '',
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              producto.imageFrontUrl!,
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  Icon(Icons.broken_image),
+            ),
+          ),
+        ),
+        title: Text(producto.productName ?? 'Sin nombre'),
+        subtitle: Text('Código: ${producto.barcode ?? 'Desconocido'}'),
+        trailing: Icon(Icons.arrow_forward_ios_rounded, size: 16),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  DetalleProducto(producto: producto, usuario: widget.usuario),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,52 +188,7 @@ class _BusquedaProductosState extends State<BusquedaProductos>
                             opacity: _fadeAnimation,
                             child: ListView.builder(
                               itemCount: _productos.length,
-                              itemBuilder: (context, index) {
-                                final producto = _productos[index];
-                                return Card(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  elevation: 3,
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 4),
-                                  child: ListTile(
-                                    leading: Hero(
-                                      tag: producto.barcode ?? index,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.network(
-                                          producto.imageFrontUrl!,
-                                          width: 50,
-                                          height: 50,
-                                          fit: BoxFit.cover,
-                                          errorBuilder:
-                                              (context, error, stackTrace) =>
-                                                  Icon(Icons.broken_image),
-                                        ),
-                                      ),
-                                    ),
-                                    title: Text(
-                                        producto.productName ?? 'Sin nombre'),
-                                    subtitle: Text(
-                                        'Código: ${producto.barcode ?? 'Desconocido'}'),
-                                    trailing: Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 16),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DetalleProducto(
-                                              producto: producto,
-                                              usuario: widget.usuario),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
+                              itemBuilder: (context, index) => cardProducto(_productos[index])
                             ),
                           ),
                   ),
