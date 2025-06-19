@@ -81,27 +81,61 @@ class DB {
     }
   }
 
-    static Future<void> insertProductoFavorito(FavoriteProduct favoriteProduct) async {
+  static Future<void> insertProductoFavorito(
+      FavoriteProduct favoriteProduct) async {
     final database = await _openDB();
 
-    await database.insert("favorite_products", favoriteProduct.toMap());
+    final productMap = favoriteProduct.toMap();
+    productMap.remove("id");
+
+    var changed = await database.insert("favorite_products", productMap);
+    if (changed > 0) {
+      favoriteProduct.id = (await favoriteProductByUserIdAndProductBarcode(favoriteProduct.userId, favoriteProduct.productBarcode))!.id;
+    }
   }
 
-    static Future<void> deleteProductoFavorito(FavoriteProduct favoriteProduct) async {
+  static Future<void> deleteProductoFavorito(
+      FavoriteProduct favoriteProduct) async {
     final database = await _openDB();
 
-    await database.delete("favorite_products", where: "userId = ? AND productId = ?", whereArgs: [favoriteProduct.userId, favoriteProduct.productId]);
+    // await database.delete("favorite_products", where: "user_id = ? AND product_barcode = ?", whereArgs: [favoriteProduct.userId, favoriteProduct.productBarcode]);
+
+    await database.delete("favorite_products",
+        where: "rowid = ?", whereArgs: [favoriteProduct.id]);
   }
 
-    static Future<List<FavoriteProduct>> favoriteProducts () async {
+  static Future<List<FavoriteProduct>> favoriteProductsbyUserId(
+      int userId) async {
     final database = await _openDB();
-    final List<Map<String, dynamic>> favoriteProducts = await database.query("favorite_products");
-  
-    return List.generate(favoriteProducts.length,
-            (i) => FavoriteProduct (
-              userId: favoriteProducts[i]['userId'],
-              productId: favoriteProducts[i]['productId'],
+    final List<Map> favoriteProducts = await database
+        .query("favorite_products", where: "user_id = ?", whereArgs: [userId]);
+
+    return List.generate(
+        favoriteProducts.length,
+        (i) => FavoriteProduct(
+              id: favoriteProducts[i]['rowid'],
+              userId: favoriteProducts[i]['user_id'],
+              productBarcode: favoriteProducts[i]['product_barcode'],
             ));
   }
 
+  static Future<FavoriteProduct?> favoriteProductByUserIdAndProductBarcode(
+      int userId, String productBarcode) async {
+    final database = await _openDB();
+    final List<Map> favoriteProducts = await database.query("favorite_products",
+        columns: ['rowid', 'user_id', 'product_barcode'],
+        where: "user_id = ? AND product_barcode = ?",
+        whereArgs: [userId, productBarcode],
+        limit: 1);
+
+    if (favoriteProducts.isEmpty) {
+      return null;
+    } else {
+      return FavoriteProduct(
+        id: favoriteProducts.first['rowid'],
+        userId: favoriteProducts.first['user_id'],
+        productBarcode: favoriteProducts.first['product_barcode'],
+      );
+    }
+  }
 }

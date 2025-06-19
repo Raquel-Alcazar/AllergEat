@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'detalle_producto.dart';
+import 'user.dart' as u;
 
 class BusquedaProductos extends StatefulWidget {
+  final u.User usuario;
+
+  BusquedaProductos({required this.usuario});
+
   @override
   _BusquedaProductosState createState() => _BusquedaProductosState();
 }
@@ -100,33 +105,31 @@ class _BusquedaProductosState extends State<BusquedaProductos>
 
             // Aquí está el checkbox añadido
             Padding(
-  padding: const EdgeInsets.symmetric(vertical: 8.0),
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Checkbox(
-        value: _filtrarAlergias,
-        onChanged: (bool? valor) {
-          setState(() {
-            _filtrarAlergias = valor ?? false;
-          });
-        },
-        activeColor: Colors.pink.shade200,
-      ),
-      SizedBox(width: 0),  // Menos espacio aquí
-      Text(
-        'Filtrar por alergias',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: Colors.pink.shade400,
-        ),
-      ),
-    ],
-  ),
-),
-
-
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Checkbox(
+                    value: _filtrarAlergias,
+                    onChanged: (bool? valor) {
+                      setState(() {
+                        _filtrarAlergias = valor ?? false;
+                      });
+                    },
+                    activeColor: Colors.pink.shade200,
+                  ),
+                  SizedBox(width: 0), // Menos espacio aquí
+                  Text(
+                    'Filtrar por alergias',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.pink.shade400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
             SizedBox(height: 20),
             _cargando
@@ -168,14 +171,16 @@ class _BusquedaProductosState extends State<BusquedaProductos>
                                         producto.productName ?? 'Sin nombre'),
                                     subtitle: Text(
                                         'Código: ${producto.barcode ?? 'Desconocido'}'),
-                                    trailing: Icon(Icons.arrow_forward_ios_rounded,
+                                    trailing: Icon(
+                                        Icons.arrow_forward_ios_rounded,
                                         size: 16),
                                     onTap: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              DetalleProducto(producto: producto),
+                                          builder: (context) => DetalleProducto(
+                                              producto: producto,
+                                              usuario: widget.usuario),
                                         ),
                                       );
                                     },

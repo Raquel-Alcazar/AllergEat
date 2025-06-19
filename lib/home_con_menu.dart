@@ -6,10 +6,9 @@ import 'perfil.dart';
 
 class HomeConMenu extends StatefulWidget {
   final u.User usuario;
-final int paginaInicial;
+  final int paginaInicial;
 
-HomeConMenu({required this.usuario, this.paginaInicial = 0});
-
+  HomeConMenu({required this.usuario, this.paginaInicial = 0});
 
   @override
   _HomeConMenuState createState() => _HomeConMenuState();
@@ -25,7 +24,7 @@ class _HomeConMenuState extends State<HomeConMenu> {
   super.initState();
   _paginaSeleccionada = widget.paginaInicial;
   _paginas = [
-    BusquedaProductos(),
+    BusquedaProductos(usuario: widget.usuario),
     FavoritosScreen(),
     PerfilScreen(usuario: widget.usuario),
   ];
