@@ -86,7 +86,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('Perfil de usuario'),
-        backgroundColor: Color(0xFFFFC1CC),
+        backgroundColor: Color(0xFF378BA4),
         actions: [
           IconButton(
             icon: Icon(Icons.logout, color: Colors.red), // 🔴 Icono rojo
@@ -104,7 +104,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
               Center(
                 child: CircleAvatar(
                   radius: 80,
-                  backgroundColor: Colors.pink.shade100,
+                  backgroundColor: Color(0xFF81BECE),
                   child: Icon(
                     Icons.person,
                     size: 100,
@@ -184,7 +184,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     child: ElevatedButton(
                       onPressed: () { _guardarCambios(); },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFFFC1CC),
+                        backgroundColor: Color(0xFF036280),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -234,7 +234,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                               'Gestionar alergias',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Color(0xFFB0003A),
+                                color: Color(0xFF012E4A),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -242,7 +242,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                             Icon(
                               Icons.settings,
                               size: 18,
-                              color: Color(0xFFB0003A),
+                              color: Color(0xFF012E4A),
                             ),
                           ],
                         ),

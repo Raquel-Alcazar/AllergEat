@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'OpenFoodFacts Demo',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xFFFFF0F5),
+        scaffoldBackgroundColor: Color.fromARGB(255, 236, 248, 255),
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: Color(0xFFFFC1CC),
           secondary: Color(0xFFFFD6DD),
