@@ -3,6 +3,7 @@ import 'package:allergeat/favorite_product.dart';
 import 'package:allergeat/db.dart';
 import 'package:allergeat/user.dart' as u;
 import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:allergeat/detalle_producto.dart';
 
 class FavoritosScreen extends StatefulWidget {
   final u.User usuario;
@@ -83,7 +84,15 @@ class _FavoritosScreenState extends State<FavoritosScreen>
         ),
         title: Text(producto.productName ?? 'Sin nombre'),
         subtitle: Text(producto.brands ?? 'Desconocido'),
-        trailing: Icon(Icons.favorite, color: Colors.pink.shade400),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  DetalleProducto(producto: producto, usuario: widget.usuario),
+            ),
+          );
+        }
       ),
     );
   }
