@@ -10,10 +10,10 @@ class PerfilScreen extends StatefulWidget {
   PerfilScreen({required this.usuario});
 
   @override
-  _PerfilScreenState createState() => _PerfilScreenState();
+  PerfilScreenState createState() => PerfilScreenState();
 }
 
-class _PerfilScreenState extends State<PerfilScreen> {
+class PerfilScreenState extends State<PerfilScreen> {
   final _formKey = GlobalKey<FormState>();
   late String nombre;
   late String apellidos;

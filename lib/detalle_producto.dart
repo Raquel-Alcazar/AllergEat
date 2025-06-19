@@ -12,10 +12,10 @@ class DetalleProducto extends StatefulWidget {
   DetalleProducto({required this.producto, required this.usuario});
 
   @override
-  _DetalleProductoState createState() => _DetalleProductoState();
+  DetalleProductoState createState() => DetalleProductoState();
 }
 
-class _DetalleProductoState extends State<DetalleProducto> {
+class DetalleProductoState extends State<DetalleProducto> {
   FavoriteProduct? productoFavorito;
 
   @override

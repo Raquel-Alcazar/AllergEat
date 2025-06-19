@@ -9,11 +9,11 @@ class GestionarAlergiasScreen extends StatefulWidget {
   GestionarAlergiasScreen({required this.usuario});
 
   @override
-  _GestionarAlergiasScreenState createState() =>
-      _GestionarAlergiasScreenState();
+  GestionarAlergiasScreenState createState() =>
+      GestionarAlergiasScreenState();
 }
 
-class _GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
+class GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
   late List<String> seleccionadas;
 
   @override

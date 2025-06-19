@@ -10,10 +10,10 @@ class BusquedaProductos extends StatefulWidget {
   BusquedaProductos({required this.usuario});
 
   @override
-  _BusquedaProductosState createState() => _BusquedaProductosState();
+  BusquedaProductosState createState() => BusquedaProductosState();
 }
 
-class _BusquedaProductosState extends State<BusquedaProductos>
+class BusquedaProductosState extends State<BusquedaProductos>
     with SingleTickerProviderStateMixin {
   final TextEditingController _searchController = TextEditingController();
   List<Product> _productos = [];

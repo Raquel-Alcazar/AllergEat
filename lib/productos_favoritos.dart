@@ -11,10 +11,10 @@ class FavoritosScreen extends StatefulWidget {
   FavoritosScreen({required this.usuario});
 
   @override
-  _FavoritosScreenState createState() => _FavoritosScreenState();
+  FavoritosScreenState createState() => FavoritosScreenState();
 }
 
-class _FavoritosScreenState extends State<FavoritosScreen>
+class FavoritosScreenState extends State<FavoritosScreen>
     with SingleTickerProviderStateMixin {
   final List<Product> productos = [];
   late AnimationController _fadeController;

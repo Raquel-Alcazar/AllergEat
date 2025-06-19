@@ -11,10 +11,10 @@ class HomeConMenu extends StatefulWidget {
   HomeConMenu({required this.usuario, this.paginaInicial = 0});
 
   @override
-  _HomeConMenuState createState() => _HomeConMenuState();
+  HomeConMenuState createState() => HomeConMenuState();
 }
 
-class _HomeConMenuState extends State<HomeConMenu> {
+class HomeConMenuState extends State<HomeConMenu> {
   late int _paginaSeleccionada = 0;
 
   late List<Widget> _paginas;
