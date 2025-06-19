@@ -1,3 +1,4 @@
+import 'package:allergeat/allergies.dart';
 import 'package:allergeat/db.dart';
 import 'package:allergeat/favorite_product.dart';
 import 'package:flutter/material.dart';
@@ -113,9 +114,9 @@ class _DetalleProductoState extends State<DetalleProducto> {
           SizedBox(height: 10),
           _detalle('Marca', widget.producto.brands),
           _detalle('Cantidad', widget.producto.quantity),
+          _detalle('Alérgenos', widget.producto.allergens?.ids.map((id) => Allergies.toSpanish(id)).join(", ")),
+          _detalle('Nutriscore', widget.producto.nutriscore?.toString().toUpperCase()),
           _detalle('Código de barras', widget.producto.barcode),
-          _detalle('Nutriscore',
-              widget.producto.nutriscore?.toString().toUpperCase()),
           _detalle('Ingredientes', getIngredients(widget.producto)),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:allergeat/allergies.dart';
 import 'package:allergeat/db.dart';
 import 'package:allergeat/user.dart';
 import 'package:flutter/material.dart';
@@ -13,23 +14,6 @@ class GestionarAlergiasScreen extends StatefulWidget {
 }
 
 class _GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
-  static const Map<String, String> alergias = {
-    'Gluten': 'en:gluten',
-    'Lácteos': 'en:milk',
-    'Huevos': 'en:eggs',
-    'Frutos secos': 'en:nuts',
-    'Cacahuetes': 'en:peanuts',
-    'Sésamo': 'en:sesame-seeds',
-    'Soja': 'en:soybeans',
-    'Apio': 'en:celery',
-    'Mostaza': 'en:mustard',
-    'Lupinus': 'en:lupinus',
-    'Pescado': 'en:fish',
-    'Crustáceos': 'en:crustaceans',
-    'Moluscos': 'en:molluscs',
-    'Sulfitos': 'en:sulphur-dioxide-and-sulphites',
-  };
-
   late List<String> seleccionadas;
 
   @override
@@ -70,8 +54,8 @@ class _GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
             'Selecciona tus alergias:',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          ...alergias.keys.map((alergia) {
-            final estaSeleccionada = seleccionadas.contains(alergias[alergia]);
+          ...Allergies.allergies.keys.map((alergia) {
+            final estaSeleccionada = seleccionadas.contains(Allergies.toCode(alergia));
 
             return SwitchListTile(
               title: Text(alergia),
@@ -82,9 +66,9 @@ class _GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
               onChanged: (bool valor) {
                 setState(() {
                   if (valor) {
-                    seleccionadas.add(alergias[alergia]!);
+                    seleccionadas.add(Allergies.toCode(alergia));
                   } else {
-                    seleccionadas.remove(alergias[alergia]);
+                    seleccionadas.remove(Allergies.toCode(alergia));
                   }
                 });
               },
