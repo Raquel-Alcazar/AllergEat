@@ -1,3 +1,4 @@
+import 'package:allergeat/allergies.dart';
 import 'package:flutter/material.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'detalle_producto.dart';
@@ -52,12 +53,18 @@ class _BusquedaProductosState extends State<BusquedaProductos>
 
     final User user = User(userId: '0', password: '0');
 
-    final ProductSearchQueryConfiguration configuration =
-        ProductSearchQueryConfiguration(
-      parametersList: <Parameter>[
-        SearchTerms(terms: [textoBusqueda]),
-        const SortBy(option: SortOption.POPULARITY),
-      ],
+    final List<Parameter> parametersList = [
+      SearchTerms(terms: [textoBusqueda]),
+      SortBy(option: SortOption.POPULARITY)
+    ];
+
+    if (_filtrarAlergias) {
+      final Map<AllergensTag, bool> mapAlergias = { for (var value in widget.usuario.allergies!) Allergies.toAllergensTag(value)! : false };
+      parametersList.add(AllergensParameter(map: mapAlergias));
+    }
+
+    final configuration = ProductSearchQueryConfiguration(
+      parametersList: parametersList,
       version: ProductQueryVersion.v3,
     );
 
@@ -77,7 +84,8 @@ class _BusquedaProductosState extends State<BusquedaProductos>
   }
 
   Color cardColorProducto(Product producto) {
-    if (producto.allergens!.ids.any((id) => widget.usuario.allergies!.contains(id))) {
+    if (producto.allergens!.ids
+        .any((id) => widget.usuario.allergies!.contains(id))) {
       return Colors.redAccent;
     } else {
       return Colors.greenAccent;
@@ -187,9 +195,9 @@ class _BusquedaProductosState extends State<BusquedaProductos>
                         : FadeTransition(
                             opacity: _fadeAnimation,
                             child: ListView.builder(
-                              itemCount: _productos.length,
-                              itemBuilder: (context, index) => cardProducto(_productos[index])
-                            ),
+                                itemCount: _productos.length,
+                                itemBuilder: (context, index) =>
+                                    cardProducto(_productos[index])),
                           ),
                   ),
           ],
