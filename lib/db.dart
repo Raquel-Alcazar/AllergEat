@@ -7,16 +7,18 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DB {
-
   static Future<Database> _openDB() async {
     WidgetsFlutterBinding.ensureInitialized();
     return openDatabase(join(await getDatabasesPath(), 'data.db'),
-    onCreate: (db, version) {
-        return db.execute(
-          "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, surname TEXT, email TEXT UNIQUE, password TEXT);"
-          "CREATE TABLE favorite_products (FOREIGN KEY(user_id) REFERENCES users(id) NOT NULL, product_id INTEGER NOT NULL);"
-          "CREATE TABLE allergies (FOREIGN KEY(user_id) REFERENCES users(id) NOT NULL, name TEXT"
-        );
+        onCreate: (db, version) {
+      final batch = db.batch();
+      batch.execute(
+          "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, surname TEXT, email TEXT UNIQUE, password TEXT)");
+      batch.execute(
+          "CREATE TABLE favorite_products (user_id INTEGER NOT NULL, product_barcode TEXT NOT NULL, FOREIGN KEY(user_id) REFERENCES users(id), CONSTRAINT UC_Favorite_Products UNIQUE(user_id, product_barcode))");
+      batch.execute(
+          "CREATE TABLE allergies (user_id INTEGER NOT NULL, name TEXT NOT NULL, FOREIGN KEY(user_id) REFERENCES users(id), CONSTRAINT UC_Allergies UNIQUE(user_id, name))");
+      batch.commit();
     }, version: 1);
   }
 
@@ -26,7 +28,10 @@ class DB {
     final userMap = user.toMap();
     userMap.remove("id");
 
-    await database.insert("users", userMap);
+    var changed = await database.insert("users", userMap);
+    if (changed > 0) {
+      user.id = (await userByEmail(user.email))!.id;
+    }
   }
 
   static Future<void> deleteUser(User user) async {
@@ -42,42 +47,38 @@ class DB {
     userMap.remove("id");
     userMap.remove("email");
 
-    await database.update("users", userMap, where: "id = ?", whereArgs: [user.id]);
+    await database
+        .update("users", userMap, where: "id = ?", whereArgs: [user.id]);
   }
 
   static Future<List<User>> users() async {
     final database = await _openDB();
     final List<Map<String, dynamic>> usersMap = await database.query("users");
-  
-    return List.generate(usersMap.length,
-            (i) => User (
-              id: usersMap[i]['id'],
-              name: usersMap[i]['name'],
-              surname: usersMap[i]['surname'],
-              email: usersMap[i]['email'],
-              password: usersMap[i]['password']
-            ));
+
+    return List.generate(
+        usersMap.length,
+        (i) => User(
+            id: usersMap[i]['id'],
+            name: usersMap[i]['name'],
+            surname: usersMap[i]['surname'],
+            email: usersMap[i]['email'],
+            password: usersMap[i]['password']));
   }
 
   static Future<User?> userByEmail(String email) async {
     final database = await _openDB();
-    List<Map> usersMap = await database.query(
-      'users',
-      where: 'email = ?', 
-      whereArgs: [email], 
-      limit: 1
-    );
-    
+    List<Map> usersMap = await database.query('users',
+        where: 'email = ?', whereArgs: [email], limit: 1);
+
     if (usersMap.isEmpty) {
       return null;
     } else {
       return User(
-        id: usersMap[0]['id'],
-        name: usersMap[0]['name'],
-        surname: usersMap[0]['surname'],
-        email: usersMap[0]['email'],
-        password: usersMap[0]['password']
-      );
+          id: usersMap[0]['id'],
+          name: usersMap[0]['name'],
+          surname: usersMap[0]['surname'],
+          email: usersMap[0]['email'],
+          password: usersMap[0]['password']);
     }
   }
 

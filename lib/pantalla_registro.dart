@@ -34,7 +34,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
           SnackBar(content: Text('¡Email ya en uso!')),
         );
       } else {
-        DB.insertUser(usuario);
+        await DB.insertUser(usuario);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Usuario registrado con éxito')),
         );
