@@ -91,7 +91,9 @@ class DB {
 
     var changed = await database.insert("favorite_products", productMap);
     if (changed > 0) {
-      favoriteProduct.id = (await favoriteProductByUserIdAndProductBarcode(favoriteProduct.userId, favoriteProduct.productBarcode))!.id;
+      favoriteProduct.id = (await favoriteProductByUserIdAndProductBarcode(
+              favoriteProduct.userId, favoriteProduct.productBarcode))!
+          .id;
     }
   }
 
@@ -108,8 +110,10 @@ class DB {
   static Future<List<FavoriteProduct>> favoriteProductsbyUserId(
       int userId) async {
     final database = await _openDB();
-    final List<Map> favoriteProducts = await database
-        .query("favorite_products", where: "user_id = ?", whereArgs: [userId]);
+    final List<Map> favoriteProducts = await database.query("favorite_products",
+        columns: ['rowid', 'user_id', 'product_barcode'],
+        where: "user_id = ?",
+        whereArgs: [userId]);
 
     return List.generate(
         favoriteProducts.length,

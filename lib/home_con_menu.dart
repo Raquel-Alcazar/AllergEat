@@ -25,7 +25,7 @@ class _HomeConMenuState extends State<HomeConMenu> {
   _paginaSeleccionada = widget.paginaInicial;
   _paginas = [
     BusquedaProductos(usuario: widget.usuario),
-    FavoritosScreen(),
+    FavoritosScreen(usuario: widget.usuario),
     PerfilScreen(usuario: widget.usuario),
   ];
 }
