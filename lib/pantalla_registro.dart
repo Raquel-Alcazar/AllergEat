@@ -10,11 +10,19 @@ class PantallaRegistro extends StatefulWidget {
 
 class _PantallaRegistroState extends State<PantallaRegistro> {
   final _formKey = GlobalKey<FormState>();
+  final _passwordController = TextEditingController();
+
   String nombre = '';
   String apellidos = '';
   String email = '';
   String password = '';
   String repetirPassword = '';
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   void _registrarse() async {
     if (context.mounted && _formKey.currentState!.validate()) {
@@ -84,6 +92,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
               ),
               SizedBox(height: 20),
               TextFormField(
+                controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(labelText: 'Contraseña'),
                 validator: (value) => value!.length < 6
@@ -95,7 +104,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
               TextFormField(
                 obscureText: true,
                 decoration: InputDecoration(labelText: 'Repite la contraseña'),
-                validator: (value) => value != password
+                validator: (value) => value != _passwordController.text 
                     ? 'Las contraseñas no coinciden'
                     : null,
                 onSaved: (value) => repetirPassword = value!,
