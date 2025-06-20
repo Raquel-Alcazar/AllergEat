@@ -42,7 +42,7 @@ class HomeConMenuState extends State<HomeConMenu> {
       body: _paginas[_paginaSeleccionada],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _paginaSeleccionada,
-        selectedItemColor: Colors.pink.shade300,
+        selectedItemColor: const Color(0xFF378BA4),
         unselectedItemColor: Colors.grey.shade600,
         backgroundColor: Colors.white,
         onTap: _onItemTapped,

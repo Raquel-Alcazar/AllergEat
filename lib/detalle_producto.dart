@@ -25,11 +25,12 @@ class DetalleProductoState extends State<DetalleProducto> {
   }
 
   Future<void> cargarProductoFavorito() async {
-    var producto =  await DB.favoriteProductByUserIdAndProductBarcode(
-        widget.usuario.id,
-        widget.producto.barcode ?? '');
+    var producto = await DB.favoriteProductByUserIdAndProductBarcode(
+        widget.usuario.id, widget.producto.barcode ?? '');
 
-    setState(() { productoFavorito = producto; });
+    setState(() {
+      productoFavorito = producto;
+    });
   }
 
   bool esFavorito() {
@@ -80,12 +81,22 @@ class DetalleProductoState extends State<DetalleProducto> {
         title: Text(widget.producto.productName ?? 'Producto'),
         actions: [
           IconButton(
-            icon: Icon(
-              esFavorito() ? Icons.favorite : Icons.favorite_border,
-              color: Colors.red,
-            ),
+            iconSize: 40,
             onPressed: toggleFavorito,
-            tooltip: esFavorito() ? 'Quitar de favoritos' : 'Añadir a favoritos',
+            tooltip:
+                esFavorito() ? 'Quitar de favoritos' : 'Añadir a favoritos',
+            icon: AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return ScaleTransition(scale: animation, child: child);
+              },
+              child: Icon(
+                esFavorito() ? Icons.favorite : Icons.favorite_border,
+                key: ValueKey<bool>(esFavorito()),
+                color: Colors.red,
+                size: 30,
+              ),
+            ),
           ),
         ],
       ),
@@ -115,8 +126,13 @@ class DetalleProductoState extends State<DetalleProducto> {
           SizedBox(height: 10),
           _detalle('Marca', widget.producto.brands),
           _detalle('Cantidad', widget.producto.quantity),
-          _detalle('Alérgenos', widget.producto.allergens?.ids.map((id) => Allergies.toSpanish(id)).join(", ")),
-          _detalle('Nutriscore', widget.producto.nutriscore?.toString().toUpperCase()),
+          _detalle(
+              'Alérgenos',
+              widget.producto.allergens?.ids
+                  .map((id) => Allergies.toSpanish(id))
+                  .join(", ")),
+          _detalle('Nutriscore',
+              widget.producto.nutriscore?.toString().toUpperCase()),
           _detalle('Código de barras', widget.producto.barcode),
           _detalle('Ingredientes', getIngredients(widget.producto)),
         ],
@@ -125,14 +141,15 @@ class DetalleProductoState extends State<DetalleProducto> {
   }
 
   Text productoApto() {
-    if (widget.producto.allergens!.ids.any((id) => widget.usuario.allergies!.contains(id))) {
+    if (widget.producto.allergens!.ids
+        .any((id) => widget.usuario.allergies!.contains(id))) {
       return Text(
-        'Este producto contiene alguno de tus alérgenos',
+        '👎 Este producto no es apto para ti',
         style: TextStyle(backgroundColor: Colors.red, fontSize: 18),
       );
     } else {
       return Text(
-        'Este producto no contiene ningún alérgeno que hayas configurado',
+        '👍 Este producto es apto para ti',
         style: TextStyle(backgroundColor: Colors.green, fontSize: 18),
       );
     }
@@ -149,7 +166,6 @@ class DetalleProductoState extends State<DetalleProducto> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Colors.pink.shade300,
             ),
           ),
           SizedBox(height: 2),

@@ -36,16 +36,12 @@ class GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
     }
   }
 
-  Color getSwitchActiveColor(bool isActive) {
-    return isActive ? Color(0xFFFF6F91) : Color(0xFFFFC1CC);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Gestionar alergias'),
-        backgroundColor: Color(0xFFFFC1CC),
+        backgroundColor: Color(0xFF378BA4),
       ),
       body: ListView(
         padding: EdgeInsets.all(20),
@@ -60,9 +56,9 @@ class GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
             return SwitchListTile(
               title: Text(alergia),
               value: estaSeleccionada,
-              activeColor: Color(0xFFFF6F91), // rosa oscuro activo
-              inactiveThumbColor: Color(0xFFFFC1CC), // rosa suave thumb desactivado
-              inactiveTrackColor: Color(0xFFFFE1E6), // rosa muy suave track desactivado
+              activeColor: Color(0xFF81BECE), // rosa oscuro activo
+              inactiveThumbColor: Color.fromARGB(255, 176, 181, 175), // rosa suave thumb desactivado
+              inactiveTrackColor: Color(0xFFE8EDE7), // rosa muy suave track desactivado
               onChanged: (bool valor) {
                 setState(() {
                   if (valor) {
@@ -78,7 +74,7 @@ class GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
           ElevatedButton(
             onPressed: () => saveAllergies(),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFFFF6F91), // rosa oscuro
+              backgroundColor: Color(0xFF036280), // rosa oscuro
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),

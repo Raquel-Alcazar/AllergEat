@@ -18,13 +18,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'OpenFoodFacts Demo',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(255, 236, 248, 255),
+        scaffoldBackgroundColor: Color.fromRGBO(236, 248, 255, 1),
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Color(0xFFFFC1CC),
+          primary: Color(0xFF036280),
           secondary: Color(0xFFFFD6DD),
         ),
         appBarTheme: AppBarTheme(
-          backgroundColor: Color(0xFFFFC1CC),
+          backgroundColor: Color(0xFF378BA4),
           foregroundColor: Colors.white,
         ),
         inputDecorationTheme: InputDecorationTheme(

@@ -63,9 +63,11 @@ class FavoritosScreenState extends State<FavoritosScreen>
     setState(() => _cargando = false);
   }
 
-  Card productoFavoritoCard(Product producto) {
-    return Card(
-      margin: EdgeInsets.only(bottom: 12),
+Widget productoFavoritoCard(Product producto) {
+  return Container(
+    width: MediaQuery.of(context).size.width - 32, // 16 de padding a cada lado
+    margin: EdgeInsets.only(bottom: 0),
+    child: Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -92,10 +94,12 @@ class FavoritosScreenState extends State<FavoritosScreen>
                   DetalleProducto(producto: producto, usuario: widget.usuario),
             ),
           );
-        }
+        },
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -107,13 +111,19 @@ class FavoritosScreenState extends State<FavoritosScreen>
         body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
-              _cargando
-                  ? CircularProgressIndicator()
+                _cargando
+                  ? Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
                   : Expanded(
                       child: productos.isEmpty
-                          ? Text('No se encontraron productos favoritos.')
+                          ? Center(
+                              child: Text(
+                                  'No se encontraron productos favoritos.'))
                           : ListView.builder(
-                              padding: EdgeInsets.all(16),
+                              padding: EdgeInsets.zero,
                               itemCount: productos.length,
                               itemBuilder: (context, index) {
                                 final producto = productos[index];

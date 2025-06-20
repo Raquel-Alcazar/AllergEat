@@ -89,7 +89,8 @@ class PerfilScreenState extends State<PerfilScreen> {
         backgroundColor: Color(0xFF378BA4),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout, color: Colors.red), // 🔴 Icono rojo
+            icon: Icon(Icons.logout, color: Colors.red),
+            iconSize: 30,
             tooltip: 'Cerrar sesión',
             onPressed: cerrarSesion,
           ),
@@ -201,8 +202,6 @@ class PerfilScreenState extends State<PerfilScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(5),
-                      splashColor: Colors.pink.shade200,
-                      highlightColor: Colors.pink.shade50,
                       onTap: () {
                         Navigator.push(
                           context,

@@ -95,16 +95,16 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
               TextFormField(
                 obscureText: true,
                 decoration: InputDecoration(labelText: 'Repite la contraseña'),
-                /*validator: (value) => value != password
+                validator: (value) => value != password
                     ? 'Las contraseñas no coinciden'
-                    : null,*/
+                    : null,
                 onSaved: (value) => repetirPassword = value!,
               ),
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: _registrarse,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFFFC1CC),
+                  backgroundColor: Color(0xFF036280),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),

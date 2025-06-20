@@ -18,6 +18,7 @@ class BusquedaProductosState extends State<BusquedaProductos>
   final TextEditingController _searchController = TextEditingController();
   List<Product> _productos = [];
   bool _cargando = false;
+  bool _haBuscado = false;
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
 
@@ -79,6 +80,7 @@ class BusquedaProductosState extends State<BusquedaProductos>
           }) ??
           []);
       _cargando = false;
+      _haBuscado = true;
       _fadeController.forward();
     });
   }
@@ -147,7 +149,7 @@ class BusquedaProductosState extends State<BusquedaProductos>
               decoration: InputDecoration(
                 hintText: 'Introduce nombre del producto',
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.search, color: Colors.pink.shade200),
+                  icon: Icon(Icons.search, color: const Color.fromARGB(255, 18, 98, 122)),
                   onPressed: () {
                     final texto = _searchController.text.trim();
                     if (texto.isNotEmpty) {
@@ -171,7 +173,7 @@ class BusquedaProductosState extends State<BusquedaProductos>
                         _filtrarAlergias = valor ?? false;
                       });
                     },
-                    activeColor: Colors.pink.shade200,
+                    activeColor: const Color(0xFF036280),
                   ),
                   SizedBox(width: 0), // Menos espacio aquí
                   Text(
@@ -179,7 +181,7 @@ class BusquedaProductosState extends State<BusquedaProductos>
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Colors.pink.shade400,
+                      color: const Color(0xFF012E4A),
                     ),
                   ),
                 ],
@@ -187,18 +189,33 @@ class BusquedaProductosState extends State<BusquedaProductos>
             ),
 
             SizedBox(height: 20),
-            _cargando
-                ? CircularProgressIndicator()
+           _cargando
+                ? Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
                 : Expanded(
-                    child: _productos.isEmpty
-                        ? Text('No se encontraron productos.')
-                        : FadeTransition(
+                    child: _productos.isNotEmpty
+                        ? FadeTransition(
                             opacity: _fadeAnimation,
                             child: ListView.builder(
-                                itemCount: _productos.length,
-                                itemBuilder: (context, index) =>
-                                    cardProducto(_productos[index])),
-                          ),
+                              itemCount: _productos.length,
+                              itemBuilder: (context, index) =>
+                                  cardProducto(_productos[index]),
+                            ),
+                          )
+                        : _haBuscado
+                            ? Center(
+                                child: Text(
+                                  'No hay productos.',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              )
+                            : SizedBox.shrink(),
                   ),
           ],
         ),

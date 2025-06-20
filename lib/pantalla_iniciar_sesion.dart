@@ -22,7 +22,7 @@ class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
 
       if (usuarioEncontrado is User && usuarioEncontrado.password == password) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('¡Inicio de sesión correcto para $usuario!')),
+          SnackBar(content: Text('¡Bienvenid@ $usuario!')),
         );
 
         Navigator.pushReplacement(
@@ -30,8 +30,7 @@ class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
           MaterialPageRoute(
             builder: (context) => HomeConMenu(
               usuario: usuarioEncontrado,
-              paginaInicial:
-                  0, // Esto hace que se abra directamente la pestaña de búsqueda
+              paginaInicial: 0,
             ),
           ),
         );
@@ -60,7 +59,10 @@ class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
                 controller: _usuarioController,
                 decoration: InputDecoration(
                   labelText: 'Usuario',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30), // mismo borde redondeado
+                  ),
+                  contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 20), // padding interno
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -75,7 +77,10 @@ class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Contraseña',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30), // mismo borde redondeado
+                  ),
+                  contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 20), // padding interno
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -90,7 +95,18 @@ class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: _iniciarSesion,
-                child: Text('Entrar'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF036280),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  minimumSize: Size(double.infinity, 50),  // ancho completo, altura 50
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                ),
+                child: Text(
+                  'Entrar',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
               ),
             ],
           ),

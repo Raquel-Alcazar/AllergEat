@@ -6,62 +6,83 @@ import 'pantalla_registro.dart';
 class Bienvenida extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Definimos colores y estilos comunes (puedes ajustarlos o importarlos de un tema global)
     final primaryColor = Theme.of(context).primaryColor;
-    final buttonTextStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Bienvenido'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '¡Bienvenido a la AllergEat!',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                color: primaryColor,
+      body: Align(
+        alignment: Alignment(
+            0, -0.4), // Centro horizontal, un poco hacia arriba verticalmente
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/logo.png',
+                width: 300,
+                height: 300,
+                fit: BoxFit.contain,
               ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => PantallaIniciarSesion()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+              SizedBox(height: 10),
+              Text(
+                '¡Tu salud, nuestra prioridad!',
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: primaryColor,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => PantallaIniciarSesion()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF036280),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  minimumSize:
+                      Size(double.infinity, 50), // ancho completo, altura 50
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                ),
+                child: Text(
+                  'Iniciar sesión',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ),
-              child: Text('Iniciar sesión', style: buttonTextStyle),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => PantallaRegistro()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+              SizedBox(height: 15),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => PantallaRegistro()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF036280),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  minimumSize:
+                      Size(double.infinity, 50), // ancho completo, altura 50
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                ),
+                child: Text(
+                  'Registrarse',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ),
-              child: Text('Registrarse', style: buttonTextStyle),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
