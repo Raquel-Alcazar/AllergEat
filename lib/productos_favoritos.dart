@@ -57,10 +57,14 @@ class FavoritosScreenState extends State<FavoritosScreen>
         await DB.favoriteProductsbyUserId(widget.usuario.id);
 
     for (FavoriteProduct p in productosFavoritos) {
-      await buscarProducto(p);
+      if (mounted) {
+        await buscarProducto(p);
+      }
     }
 
-    setState(() => _cargando = false);
+    if (mounted) {
+      setState(() => _cargando = false);
+    }
   }
 
 Widget productoFavoritoCard(Product producto) {
