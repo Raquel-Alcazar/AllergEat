@@ -18,6 +18,9 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
   String password = '';
   String repetirPassword = '';
 
+  bool _obscurePassword = true;
+  bool _obscureRepeatPassword = true;
+
   @override
   void dispose() {
     _passwordController.dispose();
@@ -93,8 +96,23 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
               SizedBox(height: 20),
               TextFormField(
                 controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Contraseña'),
+                obscureText: _obscurePassword,
+                decoration: InputDecoration(
+                  labelText: 'Contraseña',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
+                ),
                 validator: (value) => value!.length < 6
                     ? 'Debe tener al menos 6 caracteres'
                     : null,
@@ -102,9 +120,24 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
               ),
               SizedBox(height: 20),
               TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Repite la contraseña'),
-                validator: (value) => value != _passwordController.text 
+                obscureText: _obscureRepeatPassword,
+                decoration: InputDecoration(
+                  labelText: 'Repite la contraseña',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureRepeatPassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureRepeatPassword = !_obscureRepeatPassword;
+                      });
+                    },
+                  ),
+                ),
+                validator: (value) => value != _passwordController.text
                     ? 'Las contraseñas no coinciden'
                     : null,
                 onSaved: (value) => repetirPassword = value!,

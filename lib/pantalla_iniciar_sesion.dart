@@ -13,6 +13,8 @@ class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
   final TextEditingController _usuarioController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _obscurePassword = true;
+
   void _iniciarSesion() async {
     if (context.mounted && _formKey.currentState!.validate()) {
       final usuario = _usuarioController.text;
@@ -60,9 +62,11 @@ class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
                 decoration: InputDecoration(
                   labelText: 'Usuario',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30), // mismo borde redondeado
+                    borderRadius:
+                        BorderRadius.circular(30), // mismo borde redondeado
                   ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 20), // padding interno
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: 14, horizontal: 20), // padding interno
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -74,13 +78,27 @@ class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
               SizedBox(height: 20),
               TextFormField(
                 controller: _passwordController,
-                obscureText: true,
+                obscureText: _obscurePassword,
                 decoration: InputDecoration(
                   labelText: 'Contraseña',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30), // mismo borde redondeado
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 20), // padding interno
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -100,7 +118,8 @@ class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  minimumSize: Size(double.infinity, 50),  // ancho completo, altura 50
+                  minimumSize:
+                      Size(double.infinity, 50), // ancho completo, altura 50
                   padding: EdgeInsets.symmetric(vertical: 14),
                 ),
                 child: Text(
