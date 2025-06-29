@@ -28,7 +28,7 @@ class Allergies {
     'Soja': 'en:soybeans',
     'Apio': 'en:celery',
     'Mostaza': 'en:mustard',
-    'Lupinus': 'en:lupin',
+    'Altramuz': 'en:lupin',
     'Pescado': 'en:fish',
     'Crustáceos': 'en:crustaceans',
     'Moluscos': 'en:molluscs',
