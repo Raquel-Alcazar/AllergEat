@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:allergeat/db.dart';
-import 'package:allergeat/user.dart' as u;
+import 'package:allergeat/modelos/user.dart' as u;
 import 'home_con_menu.dart';
 
-class PantallaRegistro extends StatefulWidget {
+class Registro extends StatefulWidget {
   @override
-  _PantallaRegistroState createState() => _PantallaRegistroState();
+  _RegistroState createState() => _RegistroState();
 }
 
-class _PantallaRegistroState extends State<PantallaRegistro> {
+class _RegistroState extends State<Registro> {
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
 

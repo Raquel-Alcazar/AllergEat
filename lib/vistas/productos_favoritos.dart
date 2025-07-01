@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:allergeat/favorite_product.dart';
+import 'package:allergeat/modelos/favorite_product.dart';
 import 'package:allergeat/db.dart';
-import 'package:allergeat/user.dart' as u;
+import 'package:allergeat/modelos/user.dart' as u;
 import 'package:openfoodfacts/openfoodfacts.dart';
-import 'package:allergeat/detalle_producto.dart';
+import 'package:allergeat/modelos/detalle_producto.dart';
 
-class FavoritosScreen extends StatefulWidget {
+class ProductosFavoritos extends StatefulWidget {
   final u.User usuario;
 
-  FavoritosScreen({required this.usuario});
+  ProductosFavoritos({required this.usuario});
 
   @override
-  FavoritosScreenState createState() => FavoritosScreenState();
+  ProductosFavoritosState createState() => ProductosFavoritosState();
 }
 
-class FavoritosScreenState extends State<FavoritosScreen>
+class ProductosFavoritosState extends State<ProductosFavoritos>
     with SingleTickerProviderStateMixin {
   final List<Product> productos = [];
   late AnimationController _fadeController;

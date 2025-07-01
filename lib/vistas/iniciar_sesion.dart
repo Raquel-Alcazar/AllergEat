@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'db.dart';
-import 'user.dart';
+import '../db.dart';
+import '../modelos/user.dart';
 import 'home_con_menu.dart';
 
-class PantallaIniciarSesion extends StatefulWidget {
+class IniciarSesion extends StatefulWidget {
   @override
-  PantallaIniciarSesionState createState() => PantallaIniciarSesionState();
+  IniciarSesionState createState() => IniciarSesionState();
 }
 
-class PantallaIniciarSesionState extends State<PantallaIniciarSesion> {
+class IniciarSesionState extends State<IniciarSesion> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usuarioController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();

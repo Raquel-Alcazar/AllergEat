@@ -1,19 +1,19 @@
-import 'package:allergeat/allergies.dart';
+import 'package:allergeat/modelos/allergies.dart';
 import 'package:allergeat/db.dart';
-import 'package:allergeat/user.dart';
+import 'package:allergeat/modelos/user.dart';
 import 'package:flutter/material.dart';
 
-class GestionarAlergiasScreen extends StatefulWidget {
+class GestionarAlergias extends StatefulWidget {
   final User usuario;
 
-  GestionarAlergiasScreen({required this.usuario});
+  GestionarAlergias({required this.usuario});
 
   @override
-  GestionarAlergiasScreenState createState() =>
-      GestionarAlergiasScreenState();
+  GestionarAlergiasState createState() =>
+      GestionarAlergiasState();
 }
 
-class GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
+class GestionarAlergiasState extends State<GestionarAlergias> {
   late List<String> seleccionadas;
 
   @override
@@ -56,9 +56,9 @@ class GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
             return SwitchListTile(
               title: Text(alergia),
               value: estaSeleccionada,
-              activeColor: Color(0xFF81BECE), // rosa oscuro activo
-              inactiveThumbColor: Color.fromARGB(255, 176, 181, 175), // rosa suave thumb desactivado
-              inactiveTrackColor: Color(0xFFE8EDE7), // rosa muy suave track desactivado
+              activeColor: Color(0xFF81BECE), 
+              inactiveThumbColor: Color.fromARGB(255, 176, 181, 175), 
+              inactiveTrackColor: Color(0xFFE8EDE7), 
               onChanged: (bool valor) {
                 setState(() {
                   if (valor) {
@@ -84,7 +84,7 @@ class GestionarAlergiasScreenState extends State<GestionarAlergiasScreen> {
               'Guardar alergias',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.white, // texto blanco para buen contraste
+                color: Colors.white, 
                 fontWeight: FontWeight.bold,
               ),
             ),

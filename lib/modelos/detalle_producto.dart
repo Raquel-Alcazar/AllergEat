@@ -1,6 +1,6 @@
-import 'package:allergeat/allergies.dart';
+import 'package:allergeat/modelos/allergies.dart';
 import 'package:allergeat/db.dart';
-import 'package:allergeat/favorite_product.dart';
+import 'package:allergeat/modelos/favorite_product.dart';
 import 'package:flutter/material.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'user.dart' as u;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'pantalla_iniciar_sesion.dart';
-import 'pantalla_registro.dart';
+import 'iniciar_sesion.dart';
+import 'registro.dart';
 
 class Bienvenida extends StatelessWidget {
   @override
@@ -15,7 +15,7 @@ class Bienvenida extends StatelessWidget {
       ),
       body: Align(
         alignment: Alignment(
-            0, -0.4), // Centro horizontal, un poco hacia arriba verticalmente
+            0, -0.4), 
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(
@@ -42,7 +42,7 @@ class Bienvenida extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => PantallaIniciarSesion()),
+                    MaterialPageRoute(builder: (_) => IniciarSesion()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -51,7 +51,7 @@ class Bienvenida extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   minimumSize:
-                      Size(double.infinity, 50), // ancho completo, altura 50
+                      Size(double.infinity, 50), 
                   padding: EdgeInsets.symmetric(vertical: 14),
                 ),
                 child: Text(
@@ -64,7 +64,7 @@ class Bienvenida extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => PantallaRegistro()),
+                    MaterialPageRoute(builder: (_) => Registro()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -73,7 +73,7 @@ class Bienvenida extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   minimumSize:
-                      Size(double.infinity, 50), // ancho completo, altura 50
+                      Size(double.infinity, 50), 
                   padding: EdgeInsets.symmetric(vertical: 14),
                 ),
                 child: Text(

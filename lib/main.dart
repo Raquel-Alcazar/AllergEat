@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
-import 'bienvenida.dart';
+import 'vistas/bienvenida.dart';
 
 void main() {
   OpenFoodAPIConfiguration.userAgent =

@@ -1,4 +1,4 @@
-import 'package:allergeat/user.dart' as u;
+import 'package:allergeat/modelos/user.dart' as u;
 import 'package:flutter/material.dart';
 import 'busqueda_productos.dart';
 import 'productos_favoritos.dart';
@@ -25,8 +25,8 @@ class HomeConMenuState extends State<HomeConMenu> {
   _paginaSeleccionada = widget.paginaInicial;
   _paginas = [
     BusquedaProductos(usuario: widget.usuario),
-    FavoritosScreen(usuario: widget.usuario),
-    PerfilScreen(usuario: widget.usuario),
+    ProductosFavoritos(usuario: widget.usuario),
+    Perfil(usuario: widget.usuario),
   ];
 }
 

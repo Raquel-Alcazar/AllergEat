@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:allergeat/favorite_product.dart';
+import 'package:allergeat/modelos/favorite_product.dart';
 import 'package:flutter/widgets.dart';
-import 'package:allergeat/user.dart';
+import 'package:allergeat/modelos/user.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

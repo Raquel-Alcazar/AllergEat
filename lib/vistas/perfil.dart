@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'gestionar_alergias.dart';
-import 'package:allergeat/user.dart' as u;
+import 'package:allergeat/modelos/user.dart' as u;
 import 'package:allergeat/db.dart';
-import 'package:allergeat/bienvenida.dart';
+import 'package:allergeat/vistas/bienvenida.dart';
 
-class PerfilScreen extends StatefulWidget {
+class Perfil extends StatefulWidget {
   final u.User usuario;
 
-  PerfilScreen({required this.usuario});
+  Perfil({required this.usuario});
 
   @override
-  PerfilScreenState createState() => PerfilScreenState();
+  PerfilState createState() => PerfilState();
 }
 
-class PerfilScreenState extends State<PerfilScreen> {
+class PerfilState extends State<Perfil> {
   final _formKey = GlobalKey<FormState>();
   late String nombre;
   late String apellidos;
@@ -206,7 +206,7 @@ class PerfilScreenState extends State<PerfilScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => GestionarAlergiasScreen(
+                            builder: (context) => GestionarAlergias(
                               usuario: widget.usuario,
                             ),
                           ),

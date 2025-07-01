@@ -1,8 +1,8 @@
-import 'package:allergeat/allergies.dart';
+import 'package:allergeat/modelos/allergies.dart';
 import 'package:flutter/material.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
-import 'detalle_producto.dart';
-import 'user.dart' as u;
+import '../modelos/detalle_producto.dart';
+import '../modelos/user.dart' as u;
 
 class BusquedaProductos extends StatefulWidget {
   final u.User usuario;
