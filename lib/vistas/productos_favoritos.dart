@@ -69,7 +69,7 @@ class ProductosFavoritosState extends State<ProductosFavoritos>
 
 Widget productoFavoritoCard(Product producto) {
   return Container(
-    width: MediaQuery.of(context).size.width - 32, // 16 de padding a cada lado
+    width: MediaQuery.of(context).size.width - 32, 
     margin: EdgeInsets.only(bottom: 0),
     child: Card(
       shape: RoundedRectangleBorder(

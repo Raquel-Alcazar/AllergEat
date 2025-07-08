@@ -22,7 +22,6 @@ class BusquedaProductosState extends State<BusquedaProductos>
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
 
-  // Añadido checkbox para alergias
   bool _filtrarAlergias = false;
 
   @override
@@ -160,7 +159,6 @@ class BusquedaProductosState extends State<BusquedaProductos>
               ),
             ),
 
-            // Aquí está el checkbox añadido
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
@@ -175,7 +173,7 @@ class BusquedaProductosState extends State<BusquedaProductos>
                     },
                     activeColor: const Color(0xFF036280),
                   ),
-                  SizedBox(width: 0), // Menos espacio aquí
+                  SizedBox(width: 0), 
                   Text(
                     'Filtrar por alergias',
                     style: TextStyle(

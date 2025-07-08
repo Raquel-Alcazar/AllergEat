@@ -74,7 +74,7 @@ class GestionarAlergiasState extends State<GestionarAlergias> {
           ElevatedButton(
             onPressed: () => saveAllergies(),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF036280), // rosa oscuro
+              backgroundColor: Color(0xFF036280), 
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),

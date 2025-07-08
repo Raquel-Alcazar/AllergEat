@@ -59,7 +59,7 @@ class PerfilState extends State<Perfil> {
             TextButton(
               child: Text("Cancelar"),
               onPressed: () {
-                Navigator.of(context).pop(); // Cierra el diálogo
+                Navigator.of(context).pop(); 
               },
             ),
             TextButton(
@@ -68,7 +68,7 @@ class PerfilState extends State<Perfil> {
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {
-                Navigator.of(context).pop(); // Cierra el diálogo
+                Navigator.of(context).pop(); 
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => Bienvenida()),
                 );
@@ -153,7 +153,7 @@ class PerfilState extends State<Perfil> {
                 focusNode: AlwaysDisabledFocusNode(),
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.grey.shade600, // ← tono suave
+                  color: Colors.grey.shade600, 
                 ),
                 decoration: InputDecoration(
                   labelText: 'Correo electrónico',

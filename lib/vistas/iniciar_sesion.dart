@@ -63,10 +63,10 @@ class IniciarSesionState extends State<IniciarSesion> {
                   labelText: 'Usuario',
                   border: OutlineInputBorder(
                     borderRadius:
-                        BorderRadius.circular(30), // mismo borde redondeado
+                        BorderRadius.circular(30), 
                   ),
                   contentPadding: EdgeInsets.symmetric(
-                      vertical: 14, horizontal: 20), // padding interno
+                      vertical: 14, horizontal: 20), 
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -119,7 +119,7 @@ class IniciarSesionState extends State<IniciarSesion> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   minimumSize:
-                      Size(double.infinity, 50), // ancho completo, altura 50
+                      Size(double.infinity, 50), 
                   padding: EdgeInsets.symmetric(vertical: 14),
                 ),
                 child: Text(

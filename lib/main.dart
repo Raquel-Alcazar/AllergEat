@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'OpenFoodFacts Demo',
+      title: 'AllergEat',
       theme: ThemeData(
         scaffoldBackgroundColor: Color.fromRGBO(236, 248, 255, 1),
         colorScheme: ColorScheme.fromSwatch().copyWith(

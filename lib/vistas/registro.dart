@@ -55,7 +55,7 @@ class _RegistroState extends State<Registro> {
             builder: (context) => HomeConMenu(
               usuario: usuario,
               paginaInicial:
-                  0, // Esto hace que se abra directamente la pestaña de búsqueda
+                  0, 
             ),
           ),
         );
